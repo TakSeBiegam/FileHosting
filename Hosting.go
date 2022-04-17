@@ -104,6 +104,7 @@ func searchFile(w http.ResponseWriter, r *http.Request) {
 ///////////////////////
 
 func setupRoots() {
+	//subpages to be served
 	http.HandleFunc("/upload", uploadFile)
 	http.HandleFunc("/search", searchFile)
 	http.ListenAndServe(":8080", nil)
