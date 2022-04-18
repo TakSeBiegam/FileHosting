@@ -4,16 +4,23 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 )
+
+//////////////////////
+//                  //
+/*   GLOBAL PATHS   */
+//                  //
+//////////////////////
+
+var urlToSavedFilesFolder string = "http://127.0.0.1:5500/Go/temp-images/"
+var pathToFolderOfDatabase string = "Go/temp-images" //path where files should be stored
 
 ///////////////////////
 //                   //
 /* HELPFUL FUNCTIONS */
 //                   //
 ///////////////////////
-
 func cutString(str string) string {
 	//REMOVING upload- if you didn't edit code below you shouldnt need this to edit
 	//BUT IF SOMETHING IS WRONG WITH SPECIAL ID YOU NEED TO EDIT THIS
@@ -46,12 +53,12 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer file.Close()
-	var pathDirection string = "Go/temp-images" //path where files should be stored
+	///var pathDirection string = "Go/temp-images" //path where files should be stored
 
 	//tip for tempFile.Name()
-	tempFile, err := ioutil.TempFile(pathDirection, "upload-*"+handler.Filename) //Creating temp file with name upload-*filename for ex. upload-RANDOMNUMBERS-FILENAME
-	specialID := strings.Trim(tempFile.Name(), handler.Filename)                 //Removing filename from specialID
-	specialID = strings.Trim(specialID, "Go/temp-images\\")                      //Removing path from specialID
+	tempFile, err := ioutil.TempFile(pathToFolderOfDatabase, "upload-*"+handler.Filename) //Creating temp file with name upload-*filename for ex. upload-RANDOMNUMBERS-FILENAME
+	specialID := strings.Trim(tempFile.Name(), handler.Filename)                          //Removing filename from specialID
+	specialID = strings.Trim(specialID, "Go/temp-images\\")                               //Removing path from specialID
 	specialID = cutString(specialID)
 	//Here some magic because we are removing upload- from specialID by using very dangerous function CutString()
 
@@ -61,7 +68,8 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	// <<< TURN BUG INTO FUTURE BELOW >>>
 	fmt.Fprintf(w, "Your File Name: %+v \n", handler.Filename)
 	fmt.Fprintf(w, "Saved on server with special ID: %+v \n", specialID)
-	fmt.Fprintf(w, "Save your file name and special ID if you wanna download your file later: !")
+	fmt.Fprintf(w, "Save your file name and special ID if you wanna download your file later: !\n")
+	fmt.Fprintf(w, "Or use this special url: "+"http://127.0.0.1:5500/"+pathToFolderOfDatabase+"/upload-"+specialID+handler.Filename+"\n")
 
 	if err != nil {
 		fmt.Println(err)
@@ -83,18 +91,8 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchFile(w http.ResponseWriter, r *http.Request) {
-	//Path where you want to search files
-	pathDirection := "C:\\IT\\programming\\Go\\temp-images\\"
-	searchingFile, err := os.Open(pathDirection + "upload-" + r.FormValue("fileName"))
-	if err != nil {
-		fmt.Println(err)                 //COMENT FOR SERVER
-		fmt.Fprintf(w, "File not found") //COMMENT FOR USER ON BROWSER
-		return
-	}
-	w.Header().Set("Content-Disposition", "attachment; filename="+r.FormValue("fileName"))
-	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-
-	defer searchingFile.Close()
+	///urlPathDirection := "http://127.0.0.1:5500/Go/temp-images/"
+	http.Redirect(w, r, urlToSavedFilesFolder+"upload-"+r.FormValue("fileName"), http.StatusFound)
 }
 
 ///////////////////////
