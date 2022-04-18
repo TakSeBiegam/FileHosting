@@ -1,23 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="h-100" lang="en">
 
 <head>
-    <title>
-        The Best File Hosting Site in the World
-    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>The Best File Hosting Site in the World !</title>
 </head>
 
-<body>
-    <form action="http://localhost:8080/upload" enctype="multipart/form-data" method="post">
+<body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mainHeader">
+            <div>
+                <h4 class="float-md-start mb-0">File Hosting <br> Created By Arkadiusz Oskar Kurylo</br></h4>
+            </div>
+                
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/Go/startpage.html">Start Page</a>
+                <a class="nav-link active" aria-current="page"
+                    href="http://127.0.0.1:5500/Go/uploadController.html">Upload Files</a>
+                <a class="nav-link" href="http://127.0.0.1:5500/Go/searchController.html">Download Files</a>
+            </nav>
+        </header>
+        <main>
+            <br>
+            <form action="http://localhost:8080/upload" enctype="multipart/form-data" method="post">
 
-        <input type="file" name="uploadingFile" />
-        <input type="submit" value="Upload Now !" />
-    </form>
-	<!-- below is beta thing -->
-    <br></br>
-    <form action="http://127.0.0.1:5500/Go/startpage.html">
-        <input type="submit" value="Start Page" />
-    </form>
+                <input type="file" name="uploadingFile" />
+                <input type="submit" value="Upload Now !" />
+            </form>
+        </main>
+
+    </div>
 </body>
 
 </html>
